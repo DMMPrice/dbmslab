@@ -1,0 +1,55 @@
+CREATE TABLE DEPT(
+    Deptid NUMBER(1) CONSTRAINT PK_DEPT PRIMARY KEY,
+    Deptname VARCHAR2(50)
+);
+CREATE TABLE STUD_MEMBER(
+    RollNo NUMBER(3) CONSTRAINT PK_STUD_MEMBER PRIMARY KEY,
+    Fname VARCHAR(10),
+    Mname VARCHAR(10),
+    Lname VARCHAR(10),
+    Dob Date,
+    Deptid NUMBER(1),
+    Semester NUMBER(1) CONSTRAINT CHK_SEM CHECK(Semester >=1 AND Semester <=6),
+    ContactNo NUMBER(10),
+    Gender CHAR(1),
+    CONSTRAINT FK_DEPT FOREIGN KEY(Deptid) REFERENCES DEPT(Deptid)
+);
+INSERT INTO DEPT VALUES (1, 'Computer Science and Engineering');
+INSERT INTO DEPT VALUES (2, 'ECE');
+INSERT INTO DEPT  VALUES (3, 'Mechanical Engineering');
+INSERT INTO STUD_MEMBER 
+VALUES (101, 'John', 'A', 'Doe', TO_DATE('2002-05-10', 'YYYY-MM-DD'), 1, 3, 1234567890, 'M');
+INSERT INTO STUD_MEMBER 
+VALUES (102, 'Jane', 'B', 'Smith', TO_DATE('2003-08-15', 'YYYY-MM-DD'), 2, 2, 2345678901, 'F');
+INSERT INTO STUD_MEMBER
+VALUES (103, 'Alice', 'C', 'Brown', TO_DATE('2004-12-20', 'YYYY-MM-DD'), 1, 4, 3456789012, 'F');
+INSERT INTO STUD_MEMBER
+VALUES (104, 'Bob', 'D', 'White', TO_DATE('2001-07-22', 'YYYY-MM-DD'), 2, 1, 4567890123, 'M');
+SELECT * FROM DEPT;
+SELECT * FROM STUD_MEMBER;
+
+Question - 1
+SELECT
+S.Fname ,S.Mname, S.Lname, D.Deptname
+FROM STUD_MEMBER S
+JOIN
+DEPT D ON S.Deptid = D.Deptid
+WHERE
+D.Deptname = 'Computer Science and Engineering';
+
+Question - 2
+SELECT
+Fname ,Mname, Lname
+FROM STUD_MEMBER 
+WHERE
+TRUNC(MONTHS_BETWEEN(SYSDATE, Dob) / 12) > 17;
+
+Question - 3
+SELECT 
+    COUNT(*) AS Total_Students
+FROM 
+    STUD_MEMBER S
+JOIN 
+    DEPT D ON S.Deptid = D.Deptid
+WHERE 
+    D.Deptname = 'ECE';

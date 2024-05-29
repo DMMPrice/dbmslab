@@ -1,0 +1,45 @@
+CREATE TABLE Team_Detail (
+    Team_id NUMBER(3) PRIMARY KEY,
+    Team_name VARCHAR2(15),
+    Team_captain VARCHAR2(35),
+    Home_country VARCHAR2(15)
+);
+
+CREATE TABLE Player_Detail (
+    Player_id CHAR(4) PRIMARY KEY,
+    Player_name VARCHAR2(25),
+    Player_dob DATE,
+    Player_dod DATE,
+    Player_grade CHAR(1),
+    Player_run NUMBER(5),
+    Team_no NUMBER(3),
+    CONSTRAINT fk_team FOREIGN KEY (Team_no) REFERENCES Team_Detail(Team_id)
+);
+-- Insert data into Team_Detail
+INSERT INTO Team_Detail (Team_id, Team_name, Team_captain, Home_country) VALUES (1, 'Warriors', 'John Smith', 'India');
+INSERT INTO Team_Detail (Team_id, Team_name, Team_captain, Home_country) VALUES (2, 'Titans', 'Mike Johnson', 'Australia');
+INSERT INTO Team_Detail (Team_id, Team_name, Team_captain, Home_country) VALUES (3, 'Knights', 'David Williams', 'England');
+
+-- Insert data into Player_Detail
+INSERT INTO Player_Detail (Player_id, Player_name, Player_dob, Player_dod, Player_grade, Player_run, Team_no) VALUES ('P001', 'Rahul Dravid', TO_DATE('1973-01-11', 'YYYY-MM-DD'), NULL, 'A', 13288, 1);
+INSERT INTO Player_Detail (Player_id, Player_name, Player_dob, Player_dod, Player_grade, Player_run, Team_no) VALUES ('P002', 'Sachin Tendulkar', TO_DATE('1973-04-24', 'YYYY-MM-DD'), NULL, 'A', 18426, 1);
+INSERT INTO Player_Detail (Player_id, Player_name, Player_dob, Player_dod, Player_grade, Player_run, Team_no) VALUES ('P003', 'Ricky Ponting', TO_DATE('1974-12-19', 'YYYY-MM-DD'), NULL, 'A', 13704, 2);
+INSERT INTO Player_Detail (Player_id, Player_name, Player_dob, Player_dod, Player_grade, Player_run, Team_no) VALUES ('P004', 'Brian Lara', TO_DATE('1969-05-02', 'YYYY-MM-DD'), NULL, 'A', 10405, 2);
+INSERT INTO Player_Detail (Player_id, Player_name, Player_dob, Player_dod, Player_grade, Player_run, Team_no) VALUES ('P005', 'Alastair Cook', TO_DATE('1984-12-25', 'YYYY-MM-DD'), NULL, 'A', 12472, 3);
+INSERT INTO Player_Detail (Player_id, Player_name, Player_dob, Player_dod, Player_grade, Player_run, Team_no) VALUES ('P006', 'Virender Sehwag', TO_DATE('1978-10-20', 'YYYY-MM-DD'), NULL, 'A', 8586, 1);
+
+Question 1
+SELECT * 
+FROM Player_Detail 
+WHERE Team_no IN (SELECT Team_id FROM Team_Detail WHERE Home_country = 'India');
+
+Question 2
+SELECT Player_name 
+FROM Player_Detail 
+WHERE Player_run > 8000;
+
+
+Question 3
+SELECT COUNT(*) AS Total_Players 
+FROM Player_Detail 
+WHERE Player_run > 7000;
