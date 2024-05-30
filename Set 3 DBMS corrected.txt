@@ -1,0 +1,79 @@
+CREATE TABLE Team_Detail (
+    Team_id NUMBER(3) CONSTRAINT PK_Team_Detail PRIMARY KEY,
+    Team_name VARCHAR2(15) NOT NULL,
+    Team_captain VARCHAR2(35),
+    Home_country VARCHAR2(15)
+);
+
+
+
+
+-- 2. Player_Detail Table:
+-- sql
+CREATE TABLE Player_Detail (
+    Player_id CHAR(4) CONSTRAINT PK_Player_Detail PRIMARY KEY,
+    Player_name VARCHAR2(25) NOT NULL,
+    Player_dob DATE,
+    Player_doj DATE,
+    Player_grade CHAR(1) CHECK (Player_grade IN ('A', 'B', 'C', 'D')),
+    Player_run NUMBER(5),
+    Team_no NUMBER(3),
+    FOREIGN KEY (Team_no) REFERENCES Team_Detail(Team_id)
+);
+
+-- 1. Inserting values into Team_Detail table:
+-- sql
+INSERT INTO Team_Detail VALUES(101, 'Team A', 'John Doe', 'India');
+INSERT INTO Team_Detail VALUES (102, 'Team B', 'Alice Smith', 'Australia');
+INSERT INTO Team_Detail VALUES (103, 'Team C', 'Bob Brown', 'England');
+
+SELECT * FROM Team_Detail;
+
+-- 2. Inserting values into Player_Detail table:
+-- sql
+INSERT INTO Player_Detail values ('P001', 'Virat Kohli', '05-MAY-1988','08-NOVEMBER,2008', 'A', 12000, 101);
+INSERT INTO Player_Detail values ('P002', 'Steve Smith','02-May-1989','12-Feb-2010','A',9500, 102);
+
+INSERT INTO Player_Detail values ('P003', 'Joe Root','30-DECEMBER-1990', '01-January-2012', 'A', 9500, 102);
+INSERT INTO Player_Detail values ('P004', 'Rohit Sharma','30-April-1987','23-JULY-2007', 'A', 8500, 101);
+INSERT INTO Player_Detail values ('P005', 'David Warner','27-October-1986','01-December-2009','B', 7800, 102);
+
+SELECT * FROM Player_Detail;
+
+
+-- 1. Find out the player details who are playing for India.
+-- sql
+SELECT *
+FROM Player_Detail
+WHERE Team_no = (SELECT Team_id FROM Team_Detail WHERE Home_country = 'India');
+
+-- Expected Result:
+-- Player_id | Player_name  | Player_dob  | Player_doj  | Player_grade | Player_run | Team_no
+-- P001      | Virat Kohli  | 1988-11-05  | 2008-11-18  | A            | 12000      | 101
+-- P004      | Rohit Sharma | 1987-04-30  | 2007-06-23  | A            | 8500       | 101
+
+
+-- 2. Display the player name who has scored more than 8000 runs.
+-- sql
+
+SELECT Player_name
+FROM Player_Detail
+WHERE Player_run > 8000;
+
+-- Expected Result:
+-- Player_name
+-- Virat Kohli
+-- Steve Smith
+-- Joe Root
+-- Rohit Sharma
+
+
+-- 3. Find out the total number of players who have scored more than 7000 runs.
+-- sql
+SELECT COUNT(*) AS Total_Players
+FROM Player_Detail
+WHERE Player_run > 7000;
+
+-- Expected Result:
+-- Total_Players
+-- 5
