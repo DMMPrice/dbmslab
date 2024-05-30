@@ -1,0 +1,44 @@
+   
+
+
+CREATE TABLE SUPPLIER( SUP_ID NUMBER(2) PRIMARY KEY,
+    SUPNAME VARCHAR(30),
+    SUPCITY VARCHAR(30)
+);
+
+-- DROP TABLE SUPPLIER;
+-- DROP TABLE PRODUCT;
+
+CREATE TABLE product2(
+    PROD_ID NUMBER(3) PRIMARY KEY,
+    PRODNAME VARCHAR(30),
+    PRODPRICE NUMBER(7,2),
+    MFGDATE DATE,
+    SUPPLIERID NUMBER(2),
+    BESTBEFORE NUMBER(1)
+);
+
+INSERT INTO supplier VALUES (1, 'ABC Supplies', 'Mumbai');
+INSERT INTO supplier VALUES (2, 'Delhi Wholesalers', 'Delhi');
+INSERT INTO supplier  VALUES (3, 'Kolkata Traders', 'Kolkata');
+INSERT INTO supplier  VALUES (4, 'XYZ Distributors', 'Chennai');
+INSERT INTO supplier  VALUES (5, 'Delhi Enterprises', 'Delhi');
+
+
+INSERT INTO product2  VALUES (1, 'Mouse', 100.00, DATE '2023-01-01', 2, 1);
+INSERT INTO product2  VALUES (2, 'Keyboard', 150.50, DATE '2023-02-15', 1, 2);
+INSERT INTO product2  VALUES (3, 'Monitor', 200.75, DATE '2023-03-20', 3, 3);
+INSERT INTO product2  VALUES (4, 'Printer', 250.00, DATE '2023-04-10', 2, 4);
+INSERT INTO product2  VALUES (5, 'Laptop', 300.25, DATE '2023-05-05', 3, 5);
+
+1.select supname from supplier
+where supcity='Kolkata';
+
+2.select product2.prod_id, product2.prodname,product2.prodprice,product2.mfgdate,product2.supplierid,
+product2.bestbefore, supplier.sup_id from product2
+Join Supplier on product2.supplierid=supplier.sup_id
+where supcity='Delhi';
+
+3.SELECT prod_id, prodname
+FROM product2
+WHERE ADD_MONTHS(mfgdate, bestbefore * 12) < SYSDATE;
