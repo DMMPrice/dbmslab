@@ -1,0 +1,50 @@
+### Table Creation:
+
+1. *Flight_info Table*:
+sql
+CREATE TABLE Flight_info (
+    Flight_id VARCHAR2(10) CONSTRAINT PK_Flight_info PRIMARY KEY,
+    Company_name VARCHAR2(25) NOT NULL,
+    Dest_from VARCHAR2(15),
+    Dest_to VARCHAR2(15),
+    Class CHAR(1) CONSTRAINT CHK_Class CHECK (Class IN ('B', 'E', 'G')),
+    Fare NUMBER(10, 7)
+);
+
+
+2. *Passenger_info Table*:
+sql
+CREATE TABLE Passenger_info (
+    Pass_id VARCHAR2(5) CONSTRAINT PK_Passenger_info PRIMARY KEY,
+    Pass_name VARCHAR2(25) NOT NULL,
+    Pass_city VARCHAR2(25),
+    Pass_DOB DATE,
+    Flight_id VARCHAR2(10),
+    CONSTRAINT FK_Flight FOREIGN KEY (Flight_id) REFERENCES Flight_info(Flight_id)
+);
+
+
+### Queries:
+
+1. *Find out the passenger details who are travelling by flight_id 'FL101'.*
+
+sql
+SELECT *
+FROM Passenger_info
+WHERE Flight_id = 'FL101';
+
+
+2. *Find out the passenger details who are from Kolkata.*
+
+sql
+SELECT *
+FROM Passenger_info
+WHERE Pass_city = 'Kolkata';
+
+
+3. *Find out the total number of passengers travelling by 'FL102'.*
+
+sql
+SELECT COUNT(*) AS Total_Passengers
+FROM Passenger_info
+WHERE Flight_id = 'FL102';
